@@ -1140,8 +1140,10 @@ const mobileMenu = document.getElementById('mobile-menu');
 hamburger.addEventListener('click', () => {
   const isOpen = hamburger.classList.toggle('open');
   if (isOpen) {
-    mobileMenu.classList.add('open');
-    mobileMenu.style.display = 'block';
+    // 1. Lo volvemos a poner en el mapa
+    mobileMenu.style.display = 'block'; 
+    // 2. Pequeñísima pausa para que el navegador note el cambio y anime
+    setTimeout(() => mobileMenu.classList.add('open'), 20); 
     document.body.style.overflow = 'hidden';
   } else {
     closeMobileMenu();
@@ -1151,7 +1153,14 @@ hamburger.addEventListener('click', () => {
 function closeMobileMenu() {
   hamburger.classList.remove('open');
   mobileMenu.classList.remove('open');
-  mobileMenu.style.display = 'none';
+  
+  // 3. Esperamos a que la opacidad baje (0.3s) y lo quitamos de la pantalla
+  setTimeout(() => {
+    if (!hamburger.classList.contains('open')) {
+      mobileMenu.style.display = 'none';
+    }
+  }, 300);
+  
   document.body.style.overflow = 'auto';
 }
 
