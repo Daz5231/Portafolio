@@ -119,7 +119,7 @@
     /* ═══════════════════════════════════════════
        CONTENIDO PRINCIPAL
     ═══════════════════════════════════════════ */
-    #main { flex: 1; overflow-y: auto; overflow-x: hidden; position: relative; }
+    #main { flex: 1; height: 100vh; overflow-y: auto; overflow-x: hidden; position: relative; }
 
     /* ═══════════════════════════════════════════
        TRANSICIONES
@@ -1152,7 +1152,7 @@ function closeMobileMenu() {
   hamburger.classList.remove('open');
   mobileMenu.classList.remove('open');
   mobileMenu.style.display = 'none';
-  document.body.style.overflow = '';
+  document.body.style.overflow = 'auto';
 }
 
 
