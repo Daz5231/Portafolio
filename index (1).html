@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portafolio Fotográfico</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#080808', void: '#0d0d0d', carbon: '#141414',
+            graphite: '#1c1c1c', ash: '#2a2a2a', mist: '#3d3d3d',
+            silver: '#8a8a8a', pearl: '#c8c8c8', ivory: '#f0ece4', gold: '#b8965a',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans:  ['"DM Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ═══════════════════════════════════════════
+       VARIABLES Y RESET
+    ═══════════════════════════════════════════ */
+    :root { --sidebar-width: 260px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background-color: #080808; color: #c8c8c8;
+      font-family: 'DM Sans', sans-serif; height: 100%; overflow: hidden;
+    }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: #0d0d0d; }
+    ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: #8a8a8a; }
+
+    /* ═══════════════════════════════════════════
+       LAYOUT
+    ═══════════════════════════════════════════ */
+    #app { display: flex; height: 100vh; }
+
+    /* ═══════════════════════════════════════════
+       SIDEBAR
+    ═══════════════════════════════════════════ */
+    #sidebar {
+      width: var(--sidebar-width); min-width: var(--sidebar-width);
+      background: #0d0d0d; border-right: 1px solid #1c1c1c;
+      display: flex; flex-direction: column;
+      padding: 48px 32px 32px; position: relative; z-index: 10; overflow-y: auto;
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: 1.15rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #f0ece4; line-height: 1.4; margin-bottom: 40px;
+    }
+    .logo span { display: block; font-size: 0.6rem; letter-spacing: 0.35em; color: #8a8a8a; margin-top: 6px; }
+
+    /* ─── Etiqueta de CATEGORÍA — solo texto, no clickeable ─── */
+    .nav-category-label {
+      font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: #3d3d3d; margin-bottom: 6px; margin-top: 22px;
+      padding-left: 15px; user-select: none;
+    }
+
+    /* ─── Botón de EVENTO — sí clickeable ─── */
+    .nav-item {
+      display: flex; align-items: center; gap: 10px; padding: 8px 0;
+      cursor: pointer; transition: all 0.25s ease;
+      border: none; background: none; width: 100%; text-align: left;
+    }
+    .nav-item .nav-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #2a2a2a; flex-shrink: 0; transition: all 0.25s ease;
+    }
+    .nav-item .nav-label {
+      font-size: 0.78rem; font-weight: 300; letter-spacing: 0.08em;
+      color: #8a8a8a; transition: color 0.25s ease;
+    }
+    .nav-item:hover .nav-label { color: #c8c8c8; }
+    .nav-item:hover .nav-dot   { background: #b8965a; }
+    .nav-item.active .nav-label { color: #f0ece4; }
+    .nav-item.active .nav-dot   { background: #b8965a; transform: scale(1.5); }
+
+    /* ─── Botón especial: Sobre mí ─── */
+    .nav-item-about {
+      display: flex; align-items: center; gap: 10px; padding: 9px 0;
+      cursor: pointer; transition: all 0.25s ease;
+      border: none; background: none; width: 100%; text-align: left; margin-bottom: 6px;
+    }
+    .nav-item-about .nav-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #2a2a2a; flex-shrink: 0; transition: all 0.25s ease;
+    }
+    .nav-item-about .nav-label {
+      font-size: 0.78rem; font-weight: 400; letter-spacing: 0.08em;
+      color: #c8c8c8; transition: color 0.25s ease;
+    }
+    .nav-item-about:hover .nav-label { color: #f0ece4; }
+    .nav-item-about:hover .nav-dot   { background: #b8965a; }
+    .nav-item-about.active .nav-label { color: #f0ece4; }
+    .nav-item-about.active .nav-dot   { background: #b8965a; transform: scale(1.5); }
+
+    .sidebar-footer { margin-top: auto; padding-top: 32px; border-top: 1px solid #1c1c1c; }
+    .social-links { display: flex; gap: 20px; margin-top: 12px; }
+    .social-link {
+      color: #3d3d3d; font-size: 0.6rem; letter-spacing: 0.15em;
+      text-transform: uppercase; text-decoration: none; transition: color 0.2s;
+    }
+    .social-link:hover { color: #b8965a; }
+
+    /* ═══════════════════════════════════════════
+       CONTENIDO PRINCIPAL
+    ═══════════════════════════════════════════ */
+    #main { flex: 1; overflow-y: auto; overflow-x: hidden; position: relative; }
+
+    /* ═══════════════════════════════════════════
+       TRANSICIONES
+    ═══════════════════════════════════════════ */
+    .page { display: none; opacity: 0; animation: fadeIn 0.55s ease forwards; min-height: 100vh; }
+    .page.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ═══════════════════════════════════════════
+       PÁGINA ABOUT
+    ═══════════════════════════════════════════ */
+    #page-about { display: none; }
+    #page-about.active { display: flex; align-items: stretch; min-height: 100vh; position: relative; }
+    .about-image-panel { width: 42%; min-height: 100vh; position: sticky; top: 0; overflow: hidden; }
+    .about-image-panel img {
+      width: 100%; height: 100vh; object-fit: cover; object-position: center top;
+      filter: grayscale(10%) contrast(1.05);
+    }
+    .about-image-overlay { position: absolute; inset: 0; background: linear-gradient(to right, transparent 60%, #080808 100%); }
+    .about-text-panel { flex: 1; padding: 80px 64px 80px 56px; display: flex; flex-direction: column; justify-content: center; }
+    .about-eyebrow { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: #b8965a; margin-bottom: 24px; }
+    .about-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 4vw, 4.5rem); font-weight: 300; color: #f0ece4; line-height: 1.05; margin-bottom: 32px; }
+    .about-name em { font-style: italic; color: #b8965a; }
+    .about-divider { width: 48px; height: 1px; background: #b8965a; margin-bottom: 32px; }
+    .about-bio { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 300; line-height: 1.85; color: #a0a0a0; max-width: 480px; margin-bottom: 40px; }
+    .about-bio strong { color: #c8c8c8; font-weight: 400; }
+    .about-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px; }
+    .about-tag { padding: 6px 16px; border: 1px solid #2a2a2a; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #8a8a8a; transition: all 0.2s; }
+    .about-tag:hover { border-color: #b8965a; color: #b8965a; }
+    .about-cta { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: #f0ece4; padding: 14px 28px; border: 1px solid #2a2a2a; transition: all 0.25s ease; }
+    .about-cta:hover { border-color: #b8965a; color: #b8965a; }
+    .about-cta svg { transition: transform 0.25s; }
+    .about-cta:hover svg { transform: translateX(4px); }
+
+    /* ═══════════════════════════════════════════
+       GALERÍA — CABECERA
+    ═══════════════════════════════════════════ */
+    .gallery-header { padding: 56px 56px 32px; border-bottom: 1px solid #1c1c1c; }
+    .gallery-eyebrow { font-size: 0.58rem; letter-spacing: 0.35em; text-transform: uppercase; color: #b8965a; margin-bottom: 12px; }
+    .gallery-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 300; color: #f0ece4; line-height: 1.1; }
+    .gallery-subtitle { font-size: 0.75rem; color: #3d3d3d; margin-top: 10px; letter-spacing: 0.05em; }
+    .gallery-grid { padding: 40px 56px 64px; }
+
+    /* ═══════════════════════════════════════════
+       CSS GRID ORDENADO DE FOTOS
+       ───────────────────────────────────────────
+       · 3 columnas en escritorio, 2 en móvil.
+       · Cada celda lleva la clase ratio-NxM
+         que define su aspect-ratio.
+       · object-fit: cover asegura que las fotos
+         jamás se deformen independientemente de
+         su proporción real.
+    ═══════════════════════════════════════════ */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    /* Celda individual */
+    .photo-cell {
+      overflow: hidden; position: relative;
+      cursor: pointer; background: #1c1c1c;
+    }
+    .photo-cell img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.35s ease;
+      filter: brightness(0.92);
+    }
+    .photo-cell:hover img { transform: scale(1.04); filter: brightness(1); }
+
+    /* Overlay con nombre del evento */
+    .photo-cell-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%);
+      opacity: 0; transition: opacity 0.35s ease;
+      display: flex; align-items: flex-end; padding: 16px; pointer-events: none;
+    }
+    .photo-cell:hover .photo-cell-overlay { opacity: 1; }
+    .photo-cell-overlay span { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+
+    /* ─── Clases de proporción ───────────────────
+       Se asignan desde JS según el campo `ratio`
+       de cada foto en el JSON.
+       Agregar nuevas proporciones aquí si se necesitan.
+    ─────────────────────────────────────────────── */
+    .ratio-2x3 { aspect-ratio: 2 / 3; }   /* Vertical suave     */
+    .ratio-3x2 { aspect-ratio: 3 / 2; }   /* Horizontal         */
+    .ratio-4x5 { aspect-ratio: 4 / 5; }   /* Vertical retrato   */
+    .ratio-1x1 { aspect-ratio: 1 / 1; }   /* Cuadrado           */
+    .ratio-4x3 { aspect-ratio: 4 / 3; }   /* Horizontal leve    */
+    .ratio-3x4 { aspect-ratio: 3 / 4; }   /* Vertical retrato   */
+
+    /* ═══════════════════════════════════════════
+       LIGHTBOX
+    ═══════════════════════════════════════════ */
+    #lightbox {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.96);
+      z-index: 9999; display: none; align-items: center; justify-content: center; padding: 24px;
+    }
+    #lightbox.open { display: flex; animation: fadeIn 0.3s ease forwards; }
+    #lightbox-img { max-width: 90vw; max-height: 90vh; object-fit: contain; cursor: zoom-in; transition: transform 0.35s ease; }
+    #lightbox-img.zoomed { transform: scale(2); cursor: zoom-out; }
+    #lightbox-close { position: absolute; top: 24px; right: 28px; background: none; border: none; color: #8a8a8a; font-size: 1.8rem; cursor: pointer; line-height: 1; transition: color 0.2s; }
+    #lightbox-close:hover { color: #f0ece4; }
+    #lightbox-caption { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: #3d3d3d; }
+    #lightbox-prev, #lightbox-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: none; border: 1px solid #2a2a2a; color: #8a8a8a;
+      width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s;
+    }
+    #lightbox-prev { left: 24px; }
+    #lightbox-next { right: 24px; }
+    #lightbox-prev:hover, #lightbox-next:hover { border-color: #b8965a; color: #b8965a; }
+
+    /* ═══════════════════════════════════════════
+       CABECERA MÓVIL
+    ═══════════════════════════════════════════ */
+    #mobile-header {
+      display: none; position: fixed; top: 0; left: 0; right: 0;
+      height: 60px; background: #0d0d0d; border-bottom: 1px solid #1c1c1c;
+      z-index: 100; align-items: center; justify-content: space-between; padding: 0 20px;
+    }
+    .mobile-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; letter-spacing: 0.18em; text-transform: uppercase; color: #f0ece4; font-weight: 300; }
+    #hamburger { background: none; border: none; cursor: pointer; padding: 4px; display: flex; flex-direction: column; gap: 5px; }
+    #hamburger span { display: block; width: 22px; height: 1px; background: #c8c8c8; transition: all 0.3s ease; }
+    #hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    #hamburger.open span:nth-child(2) { opacity: 0; }
+    #hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    #mobile-menu {
+      display: none; position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+      background: #0d0d0d; z-index: 99; padding: 32px 28px; overflow-y: auto; opacity: 0; transition: opacity 0.3s ease;
+    }
+    #mobile-menu.open { opacity: 1; }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      #sidebar { display: none; }
+      #mobile-header { display: flex; }
+      #mobile-menu { display: block; }
+      #main { padding-top: 60px; }
+      #page-about.active { flex-direction: column; }
+      .about-image-panel { width: 100%; min-height: 55vw; position: relative; }
+      .about-image-panel img { height: 55vw; }
+      .about-image-overlay { background: linear-gradient(to bottom, transparent 60%, #080808 100%); }
+      .about-text-panel { padding: 40px 28px 64px; }
+      .about-name { font-size: 2.4rem; }
+      .gallery-header { padding: 32px 20px 20px; }
+      .gallery-grid   { padding: 24px 20px 48px; }
+      /* ── Móvil: siempre 2 columnas ── */
+      .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+    }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    .footer-bar { padding: 28px 56px; border-top: 1px solid #1c1c1c; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-copy { font-size: 0.58rem; letter-spacing: 0.15em; color: #2a2a2a; text-transform: uppercase; }
+    .footer-links { display: flex; gap: 24px; align-items: center; }
+    .footer-link { display: flex; align-items: center; gap: 7px; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: #3d3d3d; text-decoration: none; transition: color 0.2s; }
+    .footer-link:hover { color: #b8965a; }
+    .footer-link svg { width: 14px; height: 14px; }
+    @media (max-width: 900px) { .footer-bar { padding: 24px 20px; } }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════
+     CABECERA MÓVIL (visible < 900px)
+════════════════════════════════════════════════════ -->
+<header id="mobile-header">
+  <span class="mobile-logo">Portafolio Fotográfico</span>
+  <button id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ────────────────────────────────────────────────────
+     DRAWER MÓVIL
+     Categorías como títulos + Eventos como botones.
+     Se llena dinámicamente desde buildNavItems().
+──────────────────────────────────────────────────── -->
+<nav id="mobile-menu" role="navigation">
+  <div id="mobile-nav-items"></div>
+  <div style="margin-top:40px; padding-top:28px; border-top:1px solid #1c1c1c;">
+    <div class="footer-links">
+      <a href="https://www.instagram.com/_dazphotography?igsh=MXFoNnptNXpkam81dQ==" target="_blank" class="footer-link" style="color:#8a8a8a;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        Instagram
+      </a>
+      <a href="https://wa.me/50373915157" target="_blank" class="footer-link" style="color:#8a8a8a;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ════════════════════════════════════════════════════
+     APP
+════════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- ══════════════════
+       SIDEBAR (desktop)
+  ══════════════════ -->
+  <aside id="sidebar" role="navigation">
+    <div class="logo">Portafolio<br><span>Fotográfico</span></div>
+    <!-- JS inyecta categorías y eventos aquí -->
+    <div id="desktop-nav-items"></div>
+    <div class="sidebar-footer">
+      <div style="font-size:0.55rem; color:#2a2a2a; letter-spacing:0.1em; text-transform:uppercase;">Contáctame</div>
+      <div class="social-links">
+        <a href="https://www.instagram.com/_dazphotography?igsh=MXFoNnptNXpkam81dQ==" target="_blank" class="social-link">IG</a>
+        <a href="https://wa.me/50373915157" target="_blank" class="social-link">WA</a>
+        <a href="/cdn-cgi/l/email-protection#c5a4b7abaaa9a1aab6a4aba6ada0bff0f5f6f7f5f5f385a2a8a4aca9eba6aaa8" class="social-link">EM</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══════════════════
+       MAIN
+  ══════════════════ -->
+  <main id="main">
+
+    <!-- ════════════════════════════
+         PÁGINA: SOBRE MÍ
+    ════════════════════════════ -->
+    <section id="page-about" class="page">
+      <div class="about-image-panel">
+        <!--
+          ╔════════════════════════════════════════════╗
+          ║  REEMPLAZA src con tu foto de perfil       ║
+          ║  Recomendado: WebP, 800×1100 px            ║
+          ║  Ej: https://pub-XXXX.r2.dev/perfil.webp   ║
+          ╚════════════════════════════════════════════╝
+        -->
+        <img
+          src="https://pub-947e2cd2e95b40b9b5ba380568eb5ed7.r2.dev/perfil.webp"
+          alt="Fotógrafo Profesional"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%221100%22><rect fill=%22%231c1c1c%22 width=%22800%22 height=%221100%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%232a2a2a%22 font-size=%2218%22 font-family=%22sans-serif%22 letter-spacing=%225%22></text></svg>'"
+        />
+        <div class="about-image-overlay"></div>
+      </div>
+      <div class="about-text-panel">
+        <div class="about-eyebrow">Fotografía Profesional | Arnoldo Sánchez | @_dazphotography</div>
+        <h1 class="about-name">Capturando <em>instantes</em><br>que perduran</h1>
+        <div class="about-divider"></div>
+        <p class="about-bio">
+          Soy un fotógrafo apasionado por congelar instantes 
+          que transcienden en el tiempo. Mi trabajo abarca desde la emotividad de una fiestas
+          de 15 años y la gran ternura de un retrato de mascotas, hasta la presición requerida
+          en conferencias y retratos profesionales. <br><br>
+
+          Poseo un ojo entrenado para descubrir los detalles invisibles, aquellos que a simple vista 
+          no parecieran estar ahí, permitiéndome capturar no solo una imagen, sino 
+          una historia que perdura.  <br><br>
+
+          La versatilidad es mi mayor fortaleza, ya que me adapto con facilidad a cada ambiente para garantizar
+          la toma perfecta que buscas. Para mí, cada fotografía es una cápsula que encapsula mi mayor pasión 
+          por lo bello que es el arte de capturar momentos inolvidables y de alto valor. 
+        </p>
+        <div class="about-tags">
+          <span class="about-tag">Corporativa</span>
+          <span class="about-tag">Eventos</span>
+          <span class="about-tag">Retratos</span>
+          <span class="about-tag">Producto</span>
+          <span class="about-tag">15 Años</span>
+          <span class="about-tag">Deportiva</span>
+        </div>
+        
+      </div>
+      <div style="position:absolute; bottom:0; left:42%; right:0;">
+        <div class="footer-bar">
+          <span class="footer-copy">© 2026 Arnoldo Sánchez, todos los derechos reservados.</span>
+          <div class="footer-links">
+            <a href="https://www.instagram.com/_dazphotography?igsh=MXFoNnptNXpkam81dQ==" target="_blank" class="footer-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram
+            </a>
+            <a href="https://wa.me/50373915157" target="_blank" class="footer-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>WhatsApp
+            </a>
+            <a href="/cdn-cgi/l/email-protection#bddccfd3d2d1d9d2cedcd3ded5d8c7888d8e8f8d8d8bfddad0dcd4d193ded2d0" class="footer-link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Correo
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════
+         PÁGINA: GALERÍA
+         (contenido generado por JS)
+    ════════════════════════════ -->
+    <section id="page-gallery" class="page">
+      <div class="gallery-header">
+        <div class="gallery-eyebrow" id="gallery-eyebrow">Portafolio</div>
+        <h2 class="gallery-title" id="gallery-title">Selecciona un evento</h2>
+        <p class="gallery-subtitle" id="gallery-count"></p>
+      </div>
+      <div class="gallery-grid">
+        <div class="photo-grid" id="photo-grid"></div>
+      </div>
+      <div class="footer-bar">
+        <span class="footer-copy">© 2026 Arnoldo Sánchez, todos los derechos reservados</span>
+        <div class="footer-links">
+          <a href="https://www.instagram.com/_dazphotography?igsh=MXFoNnptNXpkam81dQ==" target="_blank" class="footer-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram
+          </a>
+          <a href="https://wa.me/50373915157" target="_blank" class="footer-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>WhatsApp
+          </a>
+          <a href="/cdn-cgi/l/email-protection#88e9fae6e7e4ece7fbe9e6ebe0edf2bdb8bbbab8b8bec8efe5e9e1e4a6ebe7e5" class="footer-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Correo
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ════════════════════════════
+     LIGHTBOX
+════════════════════════════ -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Visor de imagen">
+  <button id="lightbox-close" aria-label="Cerrar">×</button>
+  <button id="lightbox-prev" aria-label="Anterior">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <img id="lightbox-img" alt="Fotografía ampliada" />
+  <button id="lightbox-next" aria-label="Siguiente">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <div id="lightbox-caption"></div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     JAVASCRIPT — DATOS Y LÓGICA DEL PORTAFOLIO
+     ──────────────────────────────────────────────────────────────────
+     ESTRUCTURA DE DATOS (MENU):
+       MENU = [ CATEGORÍA, CATEGORÍA, ... ]
+         Cada CATEGORÍA tiene:
+           id      → slug único usado en el URL hash
+           label   → texto visible en el nav (no clickeable)
+           type    → 'about' | 'category'
+           events  → [ EVENTO, EVENTO, ... ]
+             Cada EVENTO tiene:
+               id      → slug único (hash URL, ej: #quince-paula)
+               label   → nombre en el nav (SÍ clickeable)
+               eyebrow → texto pequeño en la cabecera de la galería
+               photos  → [ FOTO, FOTO, ... ]
+                 Cada FOTO tiene:
+                   src      → URL completa en Cloudflare R2
+                   alt      → texto alternativo de accesibilidad
+                   ratio    → proporción: '2x3'|'3x2'|'4x5'|'1x1'|'4x3'
+                   fallback → SVG placeholder (generado automáticamente)
+
+     ── CÓMO CAMBIAR UNA URL ───────────────────────────────────────
+       · Si cambia el bucket completo: edita la constante R2_BASE.
+       · Si cambia un archivo individual: edita el campo `src` de esa foto.
+
+     ── CÓMO AÑADIR UN NUEVO EVENTO ────────────────────────────────
+       1. Localiza la categoría correcta en MENU.
+       2. Agrega un objeto nuevo al array `events` de esa categoría.
+       3. Rellena id, label, eyebrow y el array photos.
+       4. Asegúrate de que el id sea único en todo el MENU.
+
+     ── CÓMO AÑADIR UNA NUEVA CATEGORÍA ────────────────────────────
+       1. Agrega un objeto nuevo a MENU con type: 'category'.
+       2. Dale un id, label y un array events vacío o con eventos.
+════════════════════════════════════════════════════════════════════ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+/* ─── URL base del bucket Cloudflare R2 ────────────────────────────
+   Cambia SOLO esta línea si tu bucket cambia de dominio.          */
+const R2_BASE = 'https://pub-947e2cd2e95b40b9b5ba380568eb5ed7.r2.dev';
+
+
+/* ─── Genera un SVG placeholder mientras no haya imagen real ───── */
+function placeholder(label) {
+  const e = encodeURIComponent(label);
+  return `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><rect fill="%231c1c1c" width="800" height="600"/><text x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" fill="%232a2a2a" font-size="13" font-family="sans-serif" letter-spacing="4">${e}</text></svg>`;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   BASE DE DATOS DEL PORTAFOLIO
+   ───────────────────────────────────────────────────────────────────
+   Cada bloque de fotos está comentado con:
+   · Nombre del evento
+   · Total de fotos y su proporción
+   · Carpeta sugerida en R2
+   Para editar: localiza el comentario del evento y cambia los `src`.
+═══════════════════════════════════════════════════════════════════ */
+const MENU = [
+
+  /* ══════════════════════════════════════════════════
+     PÁGINA ESPECIAL: SOBRE MÍ
+     No tiene fotos. Muestra la sección About.
+  ══════════════════════════════════════════════════ */
+  {
+    id: 'about',
+    label: 'Sobre mí',
+    type: 'about'
+  },
+
+
+  /* ══════════════════════════════════════════════════
+     CATEGORÍA: 15 AÑOS
+  ══════════════════════════════════════════════════ */
+  {
+    id: 'quince',
+    label: '15 Años',
+    type: 'category',
+    events: [
+
+      /* ── INICIO EVENTO: Paula Ramírez ─────────────────────────
+         Total: 26 fotos  |  6 × (2x3) vertical  +  20 × (3x2) horizontal
+         Carpeta R2: /quince/paula-ramirez/
+         Archivos:   01.webp … 26.webp
+      ──────────────────────────────────────────────────────── */
+      {
+        id:      'quince-paula',
+        label:   'Paula Ramírez',
+        eyebrow: 'XV Años',
+        photos: [
+          // ── 6 fotos verticales 2x3 ──────────────────────────
+          { src: `${R2_BASE}/quince/paula-ramirez/01.webp`, alt: 'XV Años Paula 01', ratio: '2x3', fallback: placeholder('XV 01') },
+          { src: `${R2_BASE}/quince/paula-ramirez/02.webp`, alt: 'XV Años Paula 02', ratio: '2x3', fallback: placeholder('XV 02') },
+          { src: `${R2_BASE}/quince/paula-ramirez/03.webp`, alt: 'XV Años Paula 03', ratio: '2x3', fallback: placeholder('XV 03') },
+          { src: `${R2_BASE}/quince/paula-ramirez/04.webp`, alt: 'XV Años Paula 04', ratio: '2x3', fallback: placeholder('XV 04') },
+          { src: `${R2_BASE}/quince/paula-ramirez/05.webp`, alt: 'XV Años Paula 05', ratio: '2x3', fallback: placeholder('XV 05') },
+          { src: `${R2_BASE}/quince/paula-ramirez/06.webp`, alt: 'XV Años Paula 06', ratio: '2x3', fallback: placeholder('XV 06') },
+          // ── 20 fotos horizontales 3x2 ───────────────────────
+          { src: `${R2_BASE}/quince/paula-ramirez/07.webp`,  alt: 'XV Años Paula 07',  ratio: '3x2', fallback: placeholder('XV 07') },
+          { src: `${R2_BASE}/quince/paula-ramirez/08.webp`,  alt: 'XV Años Paula 08',  ratio: '3x2', fallback: placeholder('XV 08') },
+          { src: `${R2_BASE}/quince/paula-ramirez/09.webp`,  alt: 'XV Años Paula 09',  ratio: '3x2', fallback: placeholder('XV 09') },
+          { src: `${R2_BASE}/quince/paula-ramirez/10.webp`,  alt: 'XV Años Paula 10',  ratio: '3x2', fallback: placeholder('XV 10') },
+          { src: `${R2_BASE}/quince/paula-ramirez/11.webp`,  alt: 'XV Años Paula 11',  ratio: '3x2', fallback: placeholder('XV 11') },
+          { src: `${R2_BASE}/quince/paula-ramirez/12.webp`,  alt: 'XV Años Paula 12',  ratio: '3x2', fallback: placeholder('XV 12') },
+          { src: `${R2_BASE}/quince/paula-ramirez/13.webp`,  alt: 'XV Años Paula 13',  ratio: '3x2', fallback: placeholder('XV 13') },
+          { src: `${R2_BASE}/quince/paula-ramirez/14.webp`,  alt: 'XV Años Paula 14',  ratio: '3x2', fallback: placeholder('XV 14') },
+          { src: `${R2_BASE}/quince/paula-ramirez/15.webp`,  alt: 'XV Años Paula 15',  ratio: '3x2', fallback: placeholder('XV 15') },
+          { src: `${R2_BASE}/quince/paula-ramirez/16.webp`,  alt: 'XV Años Paula 16',  ratio: '3x2', fallback: placeholder('XV 16') },
+          { src: `${R2_BASE}/quince/paula-ramirez/17.webp`,  alt: 'XV Años Paula 17',  ratio: '3x2', fallback: placeholder('XV 17') },
+          { src: `${R2_BASE}/quince/paula-ramirez/18.webp`,  alt: 'XV Años Paula 18',  ratio: '3x2', fallback: placeholder('XV 18') },
+          { src: `${R2_BASE}/quince/paula-ramirez/19.webp`,  alt: 'XV Años Paula 19',  ratio: '3x2', fallback: placeholder('XV 19') },
+          { src: `${R2_BASE}/quince/paula-ramirez/20.webp`,  alt: 'XV Años Paula 20',  ratio: '3x2', fallback: placeholder('XV 20') },
+          { src: `${R2_BASE}/quince/paula-ramirez/21.webp`,  alt: 'XV Años Paula 21',  ratio: '3x2', fallback: placeholder('XV 21') },
+          { src: `${R2_BASE}/quince/paula-ramirez/22.webp`,  alt: 'XV Años Paula 22',  ratio: '3x2', fallback: placeholder('XV 22') },
+          { src: `${R2_BASE}/quince/paula-ramirez/23.webp`,  alt: 'XV Años Paula 23',  ratio: '3x2', fallback: placeholder('XV 23') },
+          { src: `${R2_BASE}/quince/paula-ramirez/24.webp`,  alt: 'XV Años Paula 24',  ratio: '3x2', fallback: placeholder('XV 24') },
+          { src: `${R2_BASE}/quince/paula-ramirez/25.webp`,  alt: 'XV Años Paula 25',  ratio: '3x2', fallback: placeholder('XV 25') },
+          { src: `${R2_BASE}/quince/paula-ramirez/26.webp`,  alt: 'XV Años Paula 26',  ratio: '3x2', fallback: placeholder('XV 26') },
+        ]
+      }
+      /* ── FIN EVENTO: Paula Ramírez ─────────────────────── */
+
+    ] // fin events · 15 Años
+  },
+
+
+  /* ══════════════════════════════════════════════════
+     CATEGORÍA: RETRATOS
+  ══════════════════════════════════════════════════ */
+  {
+    id: 'retratos',
+    label: 'Retratos',
+    type: 'category',
+    events: [
+
+      /* ── INICIO EVENTO: Retratos variados ──────────────────────
+         Total: 14 fotos
+           8 × (4x5) vertical  |  1 × (1x1) cuadrado
+           4 × (2x3) vertical  |  1 × (3x2) horizontal
+         Carpeta R2: /retratos/variados/
+         Archivos:   01.webp … 14.webp
+      ──────────────────────────────────────────────────────── */
+      {
+        id:      'retratos-variados',
+        label:   'Retratos variados',
+        eyebrow: 'Retratos',
+        photos: [
+          // ── 8 fotos verticales 4x5 ──────────────────────────
+          { src: `${R2_BASE}/retratos/variados/01.webp`, alt: 'Retrato 01', ratio: '4x5', fallback: placeholder('RETRATO 01') },
+          { src: `${R2_BASE}/retratos/variados/02.webp`, alt: 'Retrato 02', ratio: '4x5', fallback: placeholder('RETRATO 02') },
+          { src: `${R2_BASE}/retratos/variados/03.webp`, alt: 'Retrato 03', ratio: '4x5', fallback: placeholder('RETRATO 03') },
+          { src: `${R2_BASE}/retratos/variados/15.webp`, alt: 'Retrato 04', ratio: '4x5', fallback: placeholder('RETRATO 04') },
+          { src: `${R2_BASE}/retratos/variados/05.webp`, alt: 'Retrato 05', ratio: '4x5', fallback: placeholder('RETRATO 05') },
+          { src: `${R2_BASE}/retratos/variados/06.webp`, alt: 'Retrato 06', ratio: '4x5', fallback: placeholder('RETRATO 06') },
+          { src: `${R2_BASE}/retratos/variados/07.webp`, alt: 'Retrato 07', ratio: '4x5', fallback: placeholder('RETRATO 07') },
+          { src: `${R2_BASE}/retratos/variados/08.webp`, alt: 'Retrato 08', ratio: '4x5', fallback: placeholder('RETRATO 08') },
+          // ── 1 foto cuadrada 1x1 ─────────────────────────────
+          { src: `${R2_BASE}/retratos/variados/09.webp`, alt: 'Retrato 09', ratio: '1x1', fallback: placeholder('RETRATO 09') },
+          // ── 4 fotos verticales 2x3 ──────────────────────────
+          { src: `${R2_BASE}/retratos/variados/10.webp`, alt: 'Retrato 10', ratio: '2x3', fallback: placeholder('RETRATO 10') },
+          { src: `${R2_BASE}/retratos/variados/11.webp`, alt: 'Retrato 11', ratio: '2x3', fallback: placeholder('RETRATO 11') },
+          { src: `${R2_BASE}/retratos/variados/12.webp`, alt: 'Retrato 12', ratio: '2x3', fallback: placeholder('RETRATO 12') },
+          { src: `${R2_BASE}/retratos/variados/13.webp`, alt: 'Retrato 13', ratio: '2x3', fallback: placeholder('RETRATO 13') },
+          // ── 1 foto horizontal 3x2 ───────────────────────────
+          { src: `${R2_BASE}/retratos/variados/14.webp`, alt: 'Retrato 14', ratio: '3x2', fallback: placeholder('RETRATO 14') },
+        ]
+      },
+      /* ── FIN EVENTO: Retratos variados ─────────────────── */
+
+      /* ── INICIO EVENTO: Mascotas ────────────────────────────────
+         Total: 18 fotos
+           11 × (4x5) vertical  |  6 × (3x2) horizontal  |  1 × (4x3) horizontal leve
+         Carpeta R2: /retratos/mascotas/
+         Archivos:   01.webp … 18.webp
+      ──────────────────────────────────────────────────────── */
+      {
+        id:      'retratos-mascotas',
+        label:   'Mascotas',
+        eyebrow: 'Retratos · Mascotas',
+        photos: [
+          // ── 11 fotos verticales 4x5 ─────────────────────────
+          { src: `${R2_BASE}/retratos/mascotas/01.webp`, alt: 'Mascota 01', ratio: '4x5', fallback: placeholder('MASCOTA 01') },
+          { src: `${R2_BASE}/retratos/mascotas/02.webp`, alt: 'Mascota 02', ratio: '4x5', fallback: placeholder('MASCOTA 02') },
+          { src: `${R2_BASE}/retratos/mascotas/03.webp`, alt: 'Mascota 03', ratio: '4x5', fallback: placeholder('MASCOTA 03') },
+          { src: `${R2_BASE}/retratos/mascotas/04.webp`, alt: 'Mascota 04', ratio: '4x5', fallback: placeholder('MASCOTA 04') },
+          { src: `${R2_BASE}/retratos/mascotas/05.webp`, alt: 'Mascota 05', ratio: '4x5', fallback: placeholder('MASCOTA 05') },
+          { src: `${R2_BASE}/retratos/mascotas/06.webp`, alt: 'Mascota 06', ratio: '4x5', fallback: placeholder('MASCOTA 06') },
+          { src: `${R2_BASE}/retratos/mascotas/07.webp`, alt: 'Mascota 07', ratio: '4x5', fallback: placeholder('MASCOTA 07') },
+          { src: `${R2_BASE}/retratos/mascotas/08.webp`, alt: 'Mascota 08', ratio: '4x5', fallback: placeholder('MASCOTA 08') },
+          { src: `${R2_BASE}/retratos/mascotas/09.webp`, alt: 'Mascota 09', ratio: '4x5', fallback: placeholder('MASCOTA 09') },
+          { src: `${R2_BASE}/retratos/mascotas/10.webp`, alt: 'Mascota 10', ratio: '4x5', fallback: placeholder('MASCOTA 10') },
+          { src: `${R2_BASE}/retratos/mascotas/11.webp`, alt: 'Mascota 11', ratio: '4x5', fallback: placeholder('MASCOTA 11') },
+          // ── 6 fotos horizontales 3x2 ────────────────────────
+          { src: `${R2_BASE}/retratos/mascotas/12.webp`, alt: 'Mascota 12', ratio: '3x2', fallback: placeholder('MASCOTA 12') },
+          { src: `${R2_BASE}/retratos/mascotas/13.webp`, alt: 'Mascota 13', ratio: '3x2', fallback: placeholder('MASCOTA 13') },
+          { src: `${R2_BASE}/retratos/mascotas/14.webp`, alt: 'Mascota 14', ratio: '3x2', fallback: placeholder('MASCOTA 14') },
+          { src: `${R2_BASE}/retratos/mascotas/15.webp`, alt: 'Mascota 15', ratio: '3x2', fallback: placeholder('MASCOTA 15') },
+          { src: `${R2_BASE}/retratos/mascotas/16.webp`, alt: 'Mascota 16', ratio: '3x2', fallback: placeholder('MASCOTA 16') },
+          { src: `${R2_BASE}/retratos/mascotas/17.webp`, alt: 'Mascota 17', ratio: '3x2', fallback: placeholder('MASCOTA 17') },
+          // ── 1 foto horizontal leve 4x3 ──────────────────────
+          { src: `${R2_BASE}/retratos/mascotas/18.webp`, alt: 'Mascota 18', ratio: '4x3', fallback: placeholder('MASCOTA 18') },
+        ]
+      }
+      /* ── FIN EVENTO: Mascotas ──────────────────────────── */
+
+    ] // fin events · Retratos
+  },
+
+
+  /* ══════════════════════════════════════════════════
+     CATEGORÍA: EVENTOS VARIADOS
+     Todos los eventos de esta categoría usan 3x2
+  ══════════════════════════════════════════════════ */
+  {
+    id: 'eventos',
+    label: 'Eventos variados',
+    type: 'category',
+    events: [
+
+      /* ── INICIO EVENTO: Tejiendo Redes ─────────────────────────
+         Total: 9 fotos  |  todas 3x2 horizontal
+         Carpeta R2: /eventos/tejiendo-redes/
+         Archivos:   01.webp … 09.webp
+      ──────────────────────────────────────────────────────── */
+      {
+        id:      'eventos-tejiendo-redes',
+        label:   'Tejiendo Redes',
+        eyebrow: 'Eventos Variados',
+        photos: [
+          { src: `${R2_BASE}/eventos/tejiendo-redes/01.webp`, alt: 'Tejiendo Redes 01', ratio: '3x2', fallback: placeholder('TEJIENDO REDES 01') },
+          { src: `${R2_BASE}/eventos/tejiendo-redes/02.webp`, alt: 'Tejiendo Redes 02', ratio: '3x2', fallback: placeholder('TEJIENDO REDES 02') },
+          { src: `${R2_BASE}/eventos/tejiendo-redes/03.webp`, alt: 'Tejiendo Redes 03', ratio: '3x2', fallback: placeholder('TEJIENDO REDES 03') },
+          { src: `${R2_BASE}/eventos/tejiendo-redes/04.webp`, alt: 'Tejiendo Redes 04', ratio: '3x2', fallback: placeholder('TEJIENDO REDES 04') },
+          { src: `${R2_BASE}/eventos/tejiendo-redes/05.webp`, alt: 'Tejiendo Redes 05', ratio: '3x2', fallback: placeholder('TEJIENDO REDES 05') },
+          { src: `${R2_BASE}/eventos/tejiendo-redes/06.webp`, alt: 'Tejiendo Redes 06', ratio: '3x2', fallback: placeholder('TEJIENDO REDES 06') },
+          { src: `${R2_BASE}/eventos/tejiendo-redes/07.webp`, alt: 'Tejiendo Redes 07', ratio: '3x2', fallback: placeholder('TEJIENDO REDES 07') },
+          { src: `${R2_BASE}/eventos/tejiendo-redes/08.webp`, alt: 'Tejiendo Redes 08', ratio: '3x2', fallback: placeholder('TEJIENDO REDES 08') },
+          { src: `${R2_BASE}/eventos/tejiendo-redes/09.webp`, alt: 'Tejiendo Redes 09', ratio: '3x2', fallback: placeholder('TEJIENDO REDES 09') },
+        ]
+      },
+      /* ── FIN EVENTO: Tejiendo Redes ────────────────────── */
+
+      /* ── INICIO EVENTO: Soft Skills ─────────────────────────────
+         Total: 9 fotos  |  todas 3x2 horizontal
+         Carpeta R2: /eventos/soft-skills/
+         Archivos:   01.webp … 09.webp
+      ──────────────────────────────────────────────────────── */
+      {
+        id:      'eventos-soft-skills',
+        label:   'Soft Skills',
+        eyebrow: 'Eventos Variados',
+        photos: [
+          { src: `${R2_BASE}/eventos/soft-skills/01.webp`, alt: 'Soft Skills 01', ratio: '3x2', fallback: placeholder('SOFT SKILLS 01') },
+          { src: `${R2_BASE}/eventos/soft-skills/02.webp`, alt: 'Soft Skills 02', ratio: '3x2', fallback: placeholder('SOFT SKILLS 02') },
+          { src: `${R2_BASE}/eventos/soft-skills/03.webp`, alt: 'Soft Skills 03', ratio: '3x2', fallback: placeholder('SOFT SKILLS 03') },
+          { src: `${R2_BASE}/eventos/soft-skills/04.webp`, alt: 'Soft Skills 04', ratio: '3x2', fallback: placeholder('SOFT SKILLS 04') },
+          { src: `${R2_BASE}/eventos/soft-skills/05.webp`, alt: 'Soft Skills 05', ratio: '3x2', fallback: placeholder('SOFT SKILLS 05') },
+          { src: `${R2_BASE}/eventos/soft-skills/06.webp`, alt: 'Soft Skills 06', ratio: '3x2', fallback: placeholder('SOFT SKILLS 06') },
+          { src: `${R2_BASE}/eventos/soft-skills/07.webp`, alt: 'Soft Skills 07', ratio: '3x2', fallback: placeholder('SOFT SKILLS 07') },
+          { src: `${R2_BASE}/eventos/soft-skills/08.webp`, alt: 'Soft Skills 08', ratio: '3x2', fallback: placeholder('SOFT SKILLS 08') },
+          { src: `${R2_BASE}/eventos/soft-skills/09.webp`, alt: 'Soft Skills 09', ratio: '3x2', fallback: placeholder('SOFT SKILLS 09') },
+        ]
+      },
+      /* ── FIN EVENTO: Soft Skills ────────────────────────── */
+
+      /* ── INICIO EVENTO: Github ──────────────────────────────────
+         Total: 9 fotos  |  todas 3x2 horizontal
+         Carpeta R2: /eventos/github/
+         Archivos:   01.webp … 09.webp
+      ──────────────────────────────────────────────────────── */
+      {
+        id:      'eventos-github',
+        label:   'Github',
+        eyebrow: 'Eventos Variados',
+        photos: [
+          { src: `${R2_BASE}/eventos/github/01.webp`, alt: 'Github 01', ratio: '3x2', fallback: placeholder('GITHUB 01') },
+          { src: `${R2_BASE}/eventos/github/02.webp`, alt: 'Github 02', ratio: '3x2', fallback: placeholder('GITHUB 02') },
+          { src: `${R2_BASE}/eventos/github/03.webp`, alt: 'Github 03', ratio: '3x2', fallback: placeholder('GITHUB 03') },
+          { src: `${R2_BASE}/eventos/github/04.webp`, alt: 'Github 04', ratio: '3x2', fallback: placeholder('GITHUB 04') },
+          { src: `${R2_BASE}/eventos/github/05.webp`, alt: 'Github 05', ratio: '3x2', fallback: placeholder('GITHUB 05') },
+          { src: `${R2_BASE}/eventos/github/06.webp`, alt: 'Github 06', ratio: '3x2', fallback: placeholder('GITHUB 06') },
+          { src: `${R2_BASE}/eventos/github/07.webp`, alt: 'Github 07', ratio: '3x2', fallback: placeholder('GITHUB 07') },
+          { src: `${R2_BASE}/eventos/github/08.webp`, alt: 'Github 08', ratio: '3x2', fallback: placeholder('GITHUB 08') },
+          { src: `${R2_BASE}/eventos/github/09.webp`, alt: 'Github 09', ratio: '3x2', fallback: placeholder('GITHUB 09') },
+        ]
+      },
+      /* ── FIN EVENTO: Github ─────────────────────────────── */
+
+      /* ── INICIO EVENTO: Obra de teatro ─────────────────────────
+         Total: 11 fotos  |  todas 3x2 horizontal
+         Carpeta R2: /eventos/obra-teatro/
+         Archivos:   01.webp … 11.webp
+      ──────────────────────────────────────────────────────── */
+      {
+        id:      'eventos-obra-teatro',
+        label:   'Obra de teatro',
+        eyebrow: 'Eventos Variados',
+        photos: [
+          { src: `${R2_BASE}/eventos/obra-teatro/01.webp`, alt: 'Obra de teatro 01', ratio: '3x2', fallback: placeholder('OBRA 01') },
+          { src: `${R2_BASE}/eventos/obra-teatro/02.webp`, alt: 'Obra de teatro 02', ratio: '3x2', fallback: placeholder('OBRA 02') },
+          { src: `${R2_BASE}/eventos/obra-teatro/03.webp`, alt: 'Obra de teatro 03', ratio: '3x2', fallback: placeholder('OBRA 03') },
+          { src: `${R2_BASE}/eventos/obra-teatro/04.webp`, alt: 'Obra de teatro 04', ratio: '3x2', fallback: placeholder('OBRA 04') },
+          { src: `${R2_BASE}/eventos/obra-teatro/05.webp`, alt: 'Obra de teatro 05', ratio: '3x2', fallback: placeholder('OBRA 05') },
+          { src: `${R2_BASE}/eventos/obra-teatro/06.webp`, alt: 'Obra de teatro 06', ratio: '3x2', fallback: placeholder('OBRA 06') },
+          { src: `${R2_BASE}/eventos/obra-teatro/07.webp`, alt: 'Obra de teatro 07', ratio: '3x2', fallback: placeholder('OBRA 07') },
+          { src: `${R2_BASE}/eventos/obra-teatro/08.webp`, alt: 'Obra de teatro 08', ratio: '3x2', fallback: placeholder('OBRA 08') },
+          { src: `${R2_BASE}/eventos/obra-teatro/09.webp`, alt: 'Obra de teatro 09', ratio: '3x2', fallback: placeholder('OBRA 09') },
+          { src: `${R2_BASE}/eventos/obra-teatro/10.webp`, alt: 'Obra de teatro 10', ratio: '3x2', fallback: placeholder('OBRA 10') },
+          { src: `${R2_BASE}/eventos/obra-teatro/11.webp`, alt: 'Obra de teatro 11', ratio: '3x2', fallback: placeholder('OBRA 11') },
+        ]
+      }
+      /* ── FIN EVENTO: Obra de teatro ─────────────────────── */
+
+    ] // fin events · Eventos variados
+  },
+
+
+  /* ══════════════════════════════════════════════════
+     CATEGORÍA: PRODUCTO
+  ══════════════════════════════════════════════════ */
+  {
+    id: 'producto',
+    label: 'Producto',
+    type: 'category',
+    events: [
+
+      /* ── INICIO EVENTO: Productos variados ─────────────────────
+         Total: 11 fotos
+           6 × (4x5) vertical  |  4 × (1x1) cuadrado  |  1 × (3x2) horizontal
+         Carpeta R2: /producto/variados/
+         Archivos:   01.webp … 11.webp
+      ──────────────────────────────────────────────────────── */
+      {
+        id:      'producto-variados',
+        label:   'Productos variados',
+        eyebrow: 'Fotografía de Producto',
+        photos: [
+          // ── 6 fotos verticales 4x5 ──────────────────────────
+          { src: `${R2_BASE}/producto/variados/01.webp`, alt: 'Producto 01', ratio: '4x5', fallback: placeholder('PRODUCTO 01') },
+          { src: `${R2_BASE}/producto/variados/02.webp`, alt: 'Producto 02', ratio: '4x5', fallback: placeholder('PRODUCTO 02') },
+          { src: `${R2_BASE}/producto/variados/03.webp`, alt: 'Producto 03', ratio: '4x5', fallback: placeholder('PRODUCTO 03') },
+          { src: `${R2_BASE}/producto/variados/04.webp`, alt: 'Producto 04', ratio: '4x5', fallback: placeholder('PRODUCTO 04') },
+          { src: `${R2_BASE}/producto/variados/05.webp`, alt: 'Producto 05', ratio: '4x5', fallback: placeholder('PRODUCTO 05') },
+          { src: `${R2_BASE}/producto/variados/06.webp`, alt: 'Producto 06', ratio: '4x5', fallback: placeholder('PRODUCTO 06') },
+          // ── 4 fotos cuadradas 1x1 ───────────────────────────
+          { src: `${R2_BASE}/producto/variados/07.webp`, alt: 'Producto 07', ratio: '1x1', fallback: placeholder('PRODUCTO 07') },
+          { src: `${R2_BASE}/producto/variados/08.webp`, alt: 'Producto 08', ratio: '1x1', fallback: placeholder('PRODUCTO 08') },
+          { src: `${R2_BASE}/producto/variados/09.webp`, alt: 'Producto 09', ratio: '1x1', fallback: placeholder('PRODUCTO 09') },
+          { src: `${R2_BASE}/producto/variados/10.webp`, alt: 'Producto 10', ratio: '1x1', fallback: placeholder('PRODUCTO 10') },
+          // ── 1 foto horizontal 3x2 ───────────────────────────
+          { src: `${R2_BASE}/producto/variados/11.webp`, alt: 'Producto 11', ratio: '3x2', fallback: placeholder('PRODUCTO 11') },
+        ]
+      }
+      /* ── FIN EVENTO: Productos variados ─────────────────── */
+
+    ] // fin events · Producto
+  },
+
+
+  /* ══════════════════════════════════════════════════
+     CATEGORÍA: DEPORTES
+  ══════════════════════════════════════════════════ */
+  {
+    id: 'deportes',
+    label: 'Deportes',
+    type: 'category',
+    events: [
+
+      /* ── INICIO EVENTO: Deportes variados ──────────────────────
+         Total: ajusta la cantidad de fotos según tu necesidad.
+         Proporción sugerida: 3x2 horizontal (acción deportiva).
+         Carpeta R2: /deportes/variados/
+         Archivos:   01.webp … NN.webp
+         ─────────────────────────────────────────────────────────
+         PARA AÑADIR FOTOS: copia una línea { src, alt, ratio }
+         y cambia el número del archivo.
+      ──────────────────────────────────────────────────────── */
+      {
+        id:      'deportes-variados',
+        label:   'Deportes variados',
+        eyebrow: 'Fotografía Deportiva',
+        photos: [
+          // ── Añade tus fotos deportivas aquí ─────────────────
+          // Ejemplo (descomenta y reemplaza la URL cuando tengas las imágenes):
+          { src: `${R2_BASE}/deportiva/variados/01.webp`, alt: 'Deporte 01', ratio: '3x2', fallback: placeholder('DEPORTE 01') },
+          { src: `${R2_BASE}/deportiva/variados/02.webp`, alt: 'Deporte 02', ratio: '3x2', fallback: placeholder('DEPORTE 02') },
+          { src: `${R2_BASE}/deportiva/variados/03.webp`, alt: 'Deporte 03', ratio: '3x2', fallback: placeholder('DEPORTE 03') },
+          { src: `${R2_BASE}/deportiva/variados/04.webp`, alt: 'Deporte 04', ratio: '3x2', fallback: placeholder('DEPORTE 04') },
+          { src: `${R2_BASE}/deportiva/variados/05.webp`, alt: 'Deporte 05', ratio: '3x2', fallback: placeholder('DEPORTE 05') },
+          { src: `${R2_BASE}/deportiva/variados/06.webp`, alt: 'Deporte 06', ratio: '3x2', fallback: placeholder('DEPORTE 06') },
+          { src: `${R2_BASE}/deportiva/variados/07.webp`, alt: 'Deporte 07', ratio: '3x2', fallback: placeholder('DEPORTE 07') },
+          { src: `${R2_BASE}/deportiva/variados/08.webp`, alt: 'Deporte 08', ratio: '3x2', fallback: placeholder('DEPORTE 08') },
+          { src: `${R2_BASE}/deportiva/variados/09.webp`, alt: 'Deporte 09', ratio: '3x2', fallback: placeholder('DEPORTE 09') },
+          { src: `${R2_BASE}/deportiva/variados/10.webp`, alt: 'Deporte 10', ratio: '3x2', fallback: placeholder('DEPORTE 10') },
+          { src: `${R2_BASE}/deportiva/variados/11.webp`, alt: 'Deporte 11', ratio: '3x2', fallback: placeholder('DEPORTE 11') },
+          { src: `${R2_BASE}/deportiva/variados/12.webp`, alt: 'Deporte 12', ratio: '3x2', fallback: placeholder('DEPORTE 12') },
+          { src: `${R2_BASE}/deportiva/variados/13.webp`, alt: 'Deporte 13', ratio: '3x2', fallback: placeholder('DEPORTE 13') },
+          { src: `${R2_BASE}/deportiva/variados/14.webp`, alt: 'Deporte 14', ratio: '3x2', fallback: placeholder('DEPORTE 14') },
+          { src: `${R2_BASE}/deportiva/variados/15.webp`, alt: 'Deporte 15', ratio: '3x2', fallback: placeholder('DEPORTE 15') },
+          { src: `${R2_BASE}/deportiva/variados/16.webp`, alt: 'Deporte 16', ratio: '3x2', fallback: placeholder('DEPORTE 16') },
+        ]
+      }
+      /* ── FIN EVENTO: Deportes variados ──────────────────── */
+
+    ] // fin events · Deportes
+  },
+
+
+  /* ══════════════════════════════════════════════════
+     CATEGORÍA: FOTOGRAFÍA CORPORATIVA
+  ══════════════════════════════════════════════════ */
+  {
+    id: 'corporativa',
+    label: 'Fotografía Corporativa',
+    type: 'category',
+    events: [
+
+      /* ── INICIO EVENTO: Universidad del Dinero ──────────────────
+         Total: ajusta la cantidad de fotos según tu necesidad.
+         Proporción sugerida: 3x2 horizontal (espacios / conferencias).
+         Carpeta R2: /corporativa/universidad-dinero/
+         Archivos:   01.webp … NN.webp
+         ─────────────────────────────────────────────────────────
+         PARA AÑADIR FOTOS: copia una línea { src, alt, ratio }
+         y cambia el número del archivo.
+      ──────────────────────────────────────────────────────── */
+      {
+        id:      'corporativa-universidad-dinero',
+        label:   'Universidad del Dinero',
+        eyebrow: 'Fotografía Corporativa',
+        photos: [
+          // ── Añade tus fotos corporativas aquí ───────────────
+          { src: `${R2_BASE}/corporativa/universidad-dinero/01.webp`, alt: 'Corporativa 01', ratio: '3x2', fallback: placeholder('CORP 01') },
+          { src: `${R2_BASE}/corporativa/universidad-dinero/02.webp`, alt: 'Corporativa 02', ratio: '3x2', fallback: placeholder('CORP 02') },
+          { src: `${R2_BASE}/corporativa/universidad-dinero/03.webp`, alt: 'Corporativa 03', ratio: '3x2', fallback: placeholder('CORP 03') },
+          { src: `${R2_BASE}/corporativa/universidad-dinero/04.webp`, alt: 'Corporativa 04', ratio: '3x2', fallback: placeholder('CORP 04') },
+          { src: `${R2_BASE}/corporativa/universidad-dinero/05.webp`, alt: 'Corporativa 05', ratio: '3x2', fallback: placeholder('CORP 05') },
+          { src: `${R2_BASE}/corporativa/universidad-dinero/06.webp`, alt: 'Corporativa 06', ratio: '3x2', fallback: placeholder('CORP 06') },
+          { src: `${R2_BASE}/corporativa/universidad-dinero/07.webp`, alt: 'Corporativa 07', ratio: '3x2', fallback: placeholder('CORP 07') },
+          { src: `${R2_BASE}/corporativa/universidad-dinero/08.webp`, alt: 'Corporativa 08', ratio: '3x2', fallback: placeholder('CORP 08') },
+          { src: `${R2_BASE}/corporativa/universidad-dinero/09.webp`, alt: 'Corporativa 09', ratio: '3x2', fallback: placeholder('CORP 09') },
+        ]
+      }
+      /* ── FIN EVENTO: Universidad del Dinero ─────────────── */
+
+    ] // fin events · Fotografía Corporativa
+  }
+
+]; // ═══════════ FIN DE LA BASE DE DATOS MENU ═══════════════════════
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   ESTADO GLOBAL
+═══════════════════════════════════════════════════════════════════ */
+let activeEventId  = null;  // ID del evento visible actualmente
+let lightboxPhotos = [];    // Fotos del evento activo para el lightbox
+let lightboxIndex  = 0;     // Índice de la foto abierta en lightbox
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   buildNavItems(containerId)
+   ───────────────────────────────────────────────────────────────────
+   Construye el árbol de navegación en el contenedor indicado.
+   Genera:
+     · Un botón especial "Sobre mí" (nav-item-about)
+     · Por cada categoría: un div de etiqueta (no clickeable)
+     · Por cada evento de la categoría: un botón clickeable (nav-item)
+
+   Se llama dos veces: una para el sidebar desktop y otra para móvil.
+═══════════════════════════════════════════════════════════════════ */
+function buildNavItems(containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = ''; // Limpiar contenido previo
+
+  MENU.forEach(item => {
+
+    // ── Página About (tratamiento especial) ──
+    if (item.type === 'about') {
+      const btn = document.createElement('button');
+      btn.className  = 'nav-item-about';
+      btn.dataset.id = 'about';
+      btn.innerHTML  = `<span class="nav-dot"></span><span class="nav-label">${item.label}</span>`;
+      btn.addEventListener('click', () => { navigateTo('about'); closeMobileMenu(); });
+      container.appendChild(btn);
+      return;
+    }
+
+    // ── Etiqueta de categoría (texto, NO clickeable) ──
+    const catLabel = document.createElement('div');
+    catLabel.className   = 'nav-category-label';
+    catLabel.textContent = item.label;
+    container.appendChild(catLabel);
+
+    // ── Botones de eventos (SÍ clickeables) ──
+    (item.events || []).forEach(event => {
+      const btn = document.createElement('button');
+      btn.className  = 'nav-item';
+      btn.dataset.id = event.id;
+      btn.innerHTML  = `<span class="nav-dot"></span><span class="nav-label">${event.label}</span>`;
+      btn.addEventListener('click', () => { navigateTo(event.id); closeMobileMenu(); });
+      container.appendChild(btn);
+    });
+  });
+}
+
+
+/* ─── Marca el item activo en todos los navs de la página ───── */
+function updateActiveNav(id) {
+  document.querySelectorAll('.nav-item, .nav-item-about').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.id === id);
+  });
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   navigateTo(id)
+   ───────────────────────────────────────────────────────────────────
+   Punto de entrada principal. Recibe el id de un evento (o 'about').
+   1. Marca el nav correcto como activo.
+   2. Muestra la página correcta.
+   3. Si es una galería, renderiza las fotos del evento.
+   4. Empuja el estado al historial del navegador.
+═══════════════════════════════════════════════════════════════════ */
+function navigateTo(id) {
+
+  if (id === 'about') {
+    activeEventId = 'about';
+    updateActiveNav('about');
+    showPage('page-about');
+    history.pushState({ id }, '', '#about');
+    return;
+  }
+
+  const event = findEventById(id);
+  if (!event) { console.warn(`[Portfolio] Evento no encontrado: "${id}"`); return; }
+
+  activeEventId = id;
+  updateActiveNav(id);
+  renderGallery(event);
+  showPage('page-gallery');
+  document.getElementById('main').scrollTo(0, 0);
+  history.pushState({ id }, '', `#${id}`);
+}
+
+
+/* ─── Activa una página y oculta el resto con animación ───── */
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById(pageId);
+  page.style.animation = 'none';
+  page.offsetHeight;           // Forzar reflow para reiniciar la animación
+  page.style.animation = '';
+  page.classList.add('active');
+}
+
+
+/* ─── Busca un evento por ID en toda la estructura MENU ───── */
+function findEventById(id) {
+  for (const cat of MENU) {
+    if (cat.type !== 'category') continue;
+    const found = (cat.events || []).find(e => e.id === id);
+    if (found) return found;
+  }
+  return null;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   renderGallery(event)
+   ───────────────────────────────────────────────────────────────────
+   Recibe un objeto evento del MENU y:
+   1. Actualiza los textos del encabezado de la galería.
+   2. Vacía el grid anterior.
+   3. Crea una celda por foto con la clase ratio-NxM correcta.
+   4. Guarda las fotos en lightboxPhotos para el visor.
+═══════════════════════════════════════════════════════════════════ */
+function renderGallery(event) {
+  document.getElementById('gallery-eyebrow').textContent = event.eyebrow || 'Portafolio';
+  document.getElementById('gallery-title').textContent   = event.label;
+  document.getElementById('gallery-count').textContent   = `${event.photos.length} fotografías`;
+
+  lightboxPhotos = event.photos; // Disponibles para el lightbox
+
+  const grid = document.getElementById('photo-grid');
+  grid.innerHTML = ''; // Vaciar grid anterior
+
+  event.photos.forEach((photo, idx) => {
+    // Celda con la clase de proporción correspondiente (ej: ratio-3x2)
+    const cell = document.createElement('div');
+    cell.className = `photo-cell ratio-${photo.ratio}`;
+
+    // Imagen con lazy load y fallback SVG si falla la carga desde R2
+    const img = document.createElement('img');
+    img.src      = photo.src;
+    img.alt      = photo.alt;
+    img.loading  = 'lazy';
+    img.decoding = 'async';
+    img.onerror  = function() { this.src = photo.fallback; };
+
+    // Overlay de nombre del evento al pasar el cursor
+    const overlay = document.createElement('div');
+    overlay.className = 'photo-cell-overlay';
+    overlay.innerHTML = `<span>${event.label}</span>`;
+
+    cell.appendChild(img);
+    cell.appendChild(overlay);
+    cell.addEventListener('click', () => openLightbox(idx));
+    grid.appendChild(cell);
+  });
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   LIGHTBOX — Visor de imagen ampliada
+═══════════════════════════════════════════════════════════════════ */
+
+function openLightbox(index) {
+  lightboxIndex = index;
+  const photo   = lightboxPhotos[index];
+  const img     = document.getElementById('lightbox-img');
+
+  img.src        = photo.src;
+  img.onerror    = function() { this.src = photo.fallback; };
+  img.classList.remove('zoomed');
+
+  document.getElementById('lightbox-caption').textContent = `${index + 1} / ${lightboxPhotos.length}`;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden'; // Bloquear scroll del fondo
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-img').classList.remove('zoomed');
+  document.body.style.overflow = '';
+}
+
+// dir: +1 (siguiente) | -1 (anterior)
+function lightboxStep(dir) {
+  lightboxIndex = (lightboxIndex + dir + lightboxPhotos.length) % lightboxPhotos.length;
+  openLightbox(lightboxIndex);
+}
+
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+document.getElementById('lightbox-prev').addEventListener('click', () => lightboxStep(-1));
+document.getElementById('lightbox-next').addEventListener('click', () => lightboxStep(+1));
+
+// Clic en el fondo oscuro cierra el lightbox
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === document.getElementById('lightbox')) closeLightbox();
+});
+
+// Toggle de zoom al clicar la imagen
+document.getElementById('lightbox-img').addEventListener('click', function() {
+  this.classList.toggle('zoomed');
+  this.style.cursor = this.classList.contains('zoomed') ? 'zoom-out' : 'zoom-in';
+});
+
+// Teclado: Escape cierra, flechas navegan
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('lightbox').classList.contains('open')) return;
+  if (e.key === 'Escape')     closeLightbox();
+  if (e.key === 'ArrowLeft')  lightboxStep(-1);
+  if (e.key === 'ArrowRight') lightboxStep(+1);
+});
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   MENÚ MÓVIL
+═══════════════════════════════════════════════════════════════════ */
+const hamburger  = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+
+hamburger.addEventListener('click', () => {
+  const isOpen = hamburger.classList.toggle('open');
+  if (isOpen) {
+    mobileMenu.classList.add('open');
+    mobileMenu.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  } else {
+    closeMobileMenu();
+  }
+});
+
+function closeMobileMenu() {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  mobileMenu.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   SOPORTE HISTORIAL (botones Atrás/Adelante del navegador)
+═══════════════════════════════════════════════════════════════════ */
+window.addEventListener('popstate', e => {
+  const id = e.state?.id || location.hash.replace('#', '') || 'about';
+  navigateTo(id);
+});
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   INICIALIZACIÓN
+   1. Construir la navegación en sidebar y menú móvil.
+   2. Leer el hash de la URL para saber qué mostrar al cargar.
+   3. Mostrar la sección correspondiente (About por defecto).
+═══════════════════*/
+buildNavItems('desktop-nav-items');
+buildNavItems('mobile-nav-items');
+
+const initId = location.hash.replace('#', '') || 'about';
+navigateTo(initId);
+
+</script>
+</body>
+</html>
