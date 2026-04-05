@@ -35,7 +35,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
       background-color: #080808; color: #c8c8c8;
-      font-family: 'DM Sans', sans-serif; height: 100%; overflow-y: auto; overflow-x: hidden;
+      font-family: 'DM Sans', sans-serif; min-height: 100%; overflow-y: auto; overflow-x: hidden;
     }
     ::-webkit-scrollbar { width: 3px; }
     ::-webkit-scrollbar-track { background: #0d0d0d; }
@@ -45,7 +45,7 @@
     /* ═══════════════════════════════════════════
        LAYOUT
     ═══════════════════════════════════════════ */
-    #app { display: flex; height: 100vh; }
+    #app { display: flex; min-height: 100vh; }
 
     /* ═══════════════════════════════════════════
        SIDEBAR
@@ -119,7 +119,7 @@
     /* ═══════════════════════════════════════════
        CONTENIDO PRINCIPAL
     ═══════════════════════════════════════════ */
-    #main { flex: 1; height: 100vh; overflow-y: auto; overflow-x: hidden; position: relative; }
+    #main { flex: 1; position: relative; overflow: visible; }
 
     /* ═══════════════════════════════════════════
        TRANSICIONES
@@ -1173,6 +1173,7 @@ window.addEventListener('popstate', e => {
 ═══════════════════*/
 buildNavItems('desktop-nav-items');
 buildNavItems('mobile-nav-items');
+document.body.style.overflow = 'auto';
 
 const initId = location.hash.replace('#', '') || 'about';
 navigateTo(initId);
