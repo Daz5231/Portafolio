@@ -357,20 +357,17 @@
     ════════════════════════════ -->
     <section id="page-about" class="page">
       <div class="about-image-panel">
-        <!--
-          ╔════════════════════════════════════════════╗
-          ║  REEMPLAZA src con tu foto de perfil       ║
-          ║  Recomendado: WebP, 800×1100 px            ║
-          ║  Ej: https://pub-XXXX.r2.dev/perfil.webp   ║
-          ╚════════════════════════════════════════════╝
-        -->
-        <img
-          src="https://pub-947e2cd2e95b40b9b5ba380568eb5ed7.r2.dev/perfil.webp"
-          alt="Fotógrafo Profesional"
-          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22800%22 height=%221100%22><rect fill=%22%231c1c1c%22 width=%22800%22 height=%221100%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%232a2a2a%22 font-size=%2218%22 font-family=%22sans-serif%22 letter-spacing=%225%22></text></svg>'"
-        />
-        <div class="about-image-overlay"></div>
-      </div>
+  <picture>
+    <source media="(max-width: 900px)" srcset="https://pub-947e2cd2e95b40b9b5ba380568eb5ed7.r2.dev/perfil-movil.webp">
+    
+    <img 
+      src="https://pub-947e2cd2e95b40b9b5ba380568eb5ed7.r2.dev/perfil-pc.webp" 
+      alt="Arnoldo Sánchez - Fotógrafo"
+      class="about-profile-img"
+    >
+  </picture>
+  <div class="about-image-overlay"></div>
+</div>
       <div class="about-text-panel">
         <div class="about-eyebrow">Fotografía Profesional | Arnoldo Sánchez | @_dazphotography</div>
         <h1 class="about-name">Capturando <em>instantes</em><br>que perduran</h1>
@@ -378,7 +375,7 @@
         <p class="about-bio">
           Soy un fotógrafo apasionado por congelar instantes 
           que transcienden en el tiempo. Mi trabajo abarca desde la emotividad de una fiestas
-          de 15 años y la gran ternura de un retrato de mascotas, hasta la precisión requerida
+          de 15 años y la gran ternura de un retrato de mascotas, hasta la presición requerida
           en conferencias y retratos profesionales. <br><br>
 
           Poseo un ojo entrenado para descubrir los detalles invisibles, aquellos que a simple vista 
