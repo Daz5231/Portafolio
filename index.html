@@ -247,6 +247,12 @@
       z-index: 100; align-items: center; justify-content: space-between; padding: 0 20px;
     }
     .mobile-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; letter-spacing: 0.18em; text-transform: uppercase; color: #f0ece4; font-weight: 300; }
+    .mobile-nav-hint { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: #3d3d3d; /* Color mist/gris sutil */
+    font-weight: 400; animation: hintPulse 3s infinite ease-in-out;
+    pointer-events: none; /* No interfiere con los toques */
+}
+
+
     #hamburger { background: none; border: none; cursor: pointer; padding: 4px; display: flex; flex-direction: column; gap: 5px; }
     #hamburger span { display: block; width: 22px; height: 1px; background: #c8c8c8; transition: all 0.3s ease; }
     #hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
@@ -298,9 +304,12 @@
 ════════════════════════════════════════════════════ -->
 <header id="mobile-header">
   <span class="mobile-logo">Portafolio Fotográfico</span>
-  <button id="hamburger" aria-label="Menú">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="flex items-center gap-4">
+    <span class="mobile-nav-hint">Ver fotos -></span>
+    <button id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </header>
 
 <!-- ────────────────────────────────────────────────────
@@ -386,14 +395,7 @@
           la toma perfecta que buscas. Para mí, cada fotografía es una cápsula que encapsula mi mayor pasión 
           por lo bello que es el arte de capturar momentos inolvidables y de alto valor. 
         </p>
-        <div class="about-tags">
-          <span class="about-tag">Corporativa</span>
-          <span class="about-tag">Eventos</span>
-          <span class="about-tag">Retratos</span>
-          <span class="about-tag">Producto</span>
-          <span class="about-tag">15 Años</span>
-          <span class="about-tag">Deportiva</span>
-        </div>
+       
         
       </div>
       <div style="position:absolute; bottom:0; left:42%; right:0;">
