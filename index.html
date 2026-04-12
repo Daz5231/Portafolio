@@ -32,7 +32,15 @@
        VARIABLES Y RESET
     ═══════════════════════════════════════════ */
     :root { --sidebar-width: 260px; }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      /* Bloquea el menú de guardado en iOS/Android y la selección de texto */
+      -webkit-touch-callout: none; 
+      -webkit-user-select: none; 
+      user-select: none;
+    }
     html, body {
       background-color: #080808; 
       color: #c8c8c8;
@@ -321,7 +329,7 @@
 <header id="mobile-header">
   <span class="mobile-logo">Portafolio Fotográfico</span>
   <div class="flex items-center gap-4">
-    <span class="mobile-nav-hint"> Fotosgrafías-></span>
+    <span class="mobile-nav-hint"> Fotografías-></span>
     <button id="hamburger" aria-label="Menú">
       <span></span><span></span><span></span>
     </button>
@@ -1144,7 +1152,7 @@ hamburger.addEventListener('click', () => {
     setTimeout(() => mobileMenu.classList.add('open'), 20); 
     document.body.style.overflow = 'hidden';
   } else {
-    closeMobileMenu();
+    closeMobileMenu();    
   }
 });
 
@@ -1178,6 +1186,23 @@ window.addEventListener('popstate', e => {
    2. Leer el hash de la URL para saber qué mostrar al cargar.
    3. Mostrar la sección correspondiente (About por defecto).
 ═══════════════════*/
+document.addEventListener('contextmenu', e => {
+  if (e.target.tagName === 'IMG' || e.target.closest('.photo-cell')) {
+    e.preventDefault();
+  }
+}, false);
+
+// Bloquea el arrastre de imágenes
+document.addEventListener('dragstart', e => {
+  if (e.target.tagName === 'IMG') {
+    e.preventDefault();
+  }
+}, false);
+
+// Protección extra para la imagen del Lightbox
+const lbImg = document.getElementById('lightbox-img');
+lbImg.addEventListener('contextmenu', e => e.preventDefault());
+lbImg.addEventListener('dragstart', e => e.preventDefault());
 buildNavItems('desktop-nav-items');
 buildNavItems('mobile-nav-items');
 document.body.style.overflow = 'auto';
