@@ -246,8 +246,8 @@
       height: 60px; background: #0d0d0d; border-bottom: 1px solid #1c1c1c;
       z-index: 100; align-items: center; justify-content: space-between; padding: 0 20px;
     }
-    .mobile-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; letter-spacing: 0.18em; text-transform: uppercase; color: #f0ece4; font-weight: 300; }
-    .mobile-nav-hint { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: #3d3d3d; /* Color mist/gris sutil */
+    .mobile-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; letter-spacing: 0.18em; text-transform: uppercase; color: #f0ece4; font-weight: 200; }
+    .mobile-nav-hint { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: #f0ece489; /* Color mist/gris sutil */
     font-weight: 400; animation: hintPulse 3s infinite ease-in-out;
     pointer-events: none; /* No interfiere con los toques */
 }
@@ -289,9 +289,9 @@
        FOOTER
     ═══════════════════════════════════════════ */
     .footer-bar { padding: 28px 56px; border-top: 1px solid #1c1c1c; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-    .footer-copy { font-size: 0.58rem; letter-spacing: 0.15em; color: #2a2a2a; text-transform: uppercase; }
+    .footer-copy { font-size: 0.58rem; letter-spacing: 0.15em; color: #f0ece489; text-transform: uppercase; }
     .footer-links { display: flex; gap: 24px; align-items: center; }
-    .footer-link { display: flex; align-items: center; gap: 7px; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: #3d3d3d; text-decoration: none; transition: color 0.2s; }
+    .footer-link { display: flex; align-items: center; gap: 7px; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: #f0ece4; text-decoration: none; transition: color 0.2s; }
     .footer-link:hover { color: #b8965a; }
     .footer-link svg { width: 14px; height: 14px; }
     @media (max-width: 900px) { .footer-bar { padding: 24px 20px; } }
@@ -305,7 +305,7 @@
 <header id="mobile-header">
   <span class="mobile-logo">Portafolio Fotográfico</span>
   <div class="flex items-center gap-4">
-    <span class="mobile-nav-hint">Ver fotos -></span>
+    <span class="mobile-nav-hint"> Fotos -></span>
     <button id="hamburger" aria-label="Menú">
       <span></span><span></span><span></span>
     </button>
@@ -347,7 +347,7 @@
     <!-- JS inyecta categorías y eventos aquí -->
     <div id="desktop-nav-items"></div>
     <div class="sidebar-footer">
-      <div style="font-size:0.55rem; color:#2a2a2a; letter-spacing:0.1em; text-transform:uppercase;">Contáctame</div>
+      <div style="font-size:0.55rem; color:#f0ece489; letter-spacing:0.1em; text-transform:uppercase;">Contáctame</div>
       <div class="social-links">
         <a href="https://www.instagram.com/_dazphotography?igsh=MXFoNnptNXpkam81dQ==" target="_blank" class="social-link">IG</a>
         <a href="https://wa.me/50373915157" target="_blank" class="social-link">WA</a>
@@ -398,7 +398,7 @@
        
         
       </div>
-      <div style="position:absolute; bottom:0; left:42%; right:0;">
+      <div style="position:absolute; bottom:0; left:42%; right:10%;">
         <div class="footer-bar">
           <span class="footer-copy">© 2026 Arnoldo Sánchez, todos los derechos reservados.</span>
           <div class="footer-links">
@@ -408,9 +408,7 @@
             <a href="https://wa.me/50373915157" target="_blank" class="footer-link">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>WhatsApp
             </a>
-            <a href="/cdn-cgi/l/email-protection#bddccfd3d2d1d9d2cedcd3ded5d8c7888d8e8f8d8d8bfddad0dcd4d193ded2d0" class="footer-link">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Correo
-            </a>
+            
           </div>
         </div>
       </div>
@@ -438,9 +436,7 @@
           <a href="https://wa.me/50373915157" target="_blank" class="footer-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>WhatsApp
           </a>
-          <a href="/cdn-cgi/l/email-protection#88e9fae6e7e4ece7fbe9e6ebe0edf2bdb8bbbab8b8bec8efe5e9e1e4a6ebe7e5" class="footer-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Correo
-          </a>
+          
         </div>
       </div>
     </section>
