@@ -34,8 +34,11 @@
     :root { --sidebar-width: 260px; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
-      background-color: #080808; color: #c8c8c8;
-      font-family: 'DM Sans', sans-serif; min-height: 100%; overflow-y: auto; overflow-x: hidden;
+      background-color: #080808; 
+      color: #c8c8c8;
+      font-family: 'DM Sans', sans-serif; 
+      height: 100%; /* Volver al original */
+      overflow: hidden; /* Volver al original */
     }
     ::-webkit-scrollbar { width: 3px; }
     ::-webkit-scrollbar-track { background: #0d0d0d; }
@@ -119,7 +122,13 @@
     /* ═══════════════════════════════════════════
        CONTENIDO PRINCIPAL
     ═══════════════════════════════════════════ */
-    #main { flex: 1; position: relative; overflow: visible; }
+    #main 
+    { 
+      flex: 1; 
+      height: 100vh; /* Volver al original */
+      overflow-y: auto; /* Volver al original */
+      position: relative;
+     }
 
     /* ═══════════════════════════════════════════
        TRANSICIONES
@@ -142,7 +151,14 @@
       filter: grayscale(10%) contrast(1.05);
     }
     .about-image-overlay { position: absolute; inset: 0; background: linear-gradient(to right, transparent 60%, #080808 100%); }
-    .about-text-panel { flex: 1; padding: 80px 64px 80px 56px; display: flex; flex-direction: column; justify-content: center; }
+    .about-text-panel {
+      flex: 1; 
+      padding: 80px 64px 40px 56px; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: flex-start; /* El contenido empieza arriba */
+      min-height: 100vh; /* Ocupa todo el alto para empujar el footer */
+     }
     .about-eyebrow { font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: #b8965a; margin-bottom: 24px; }
     .about-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 4vw, 4.5rem); font-weight: 300; color: #f0ece4; line-height: 1.05; margin-bottom: 32px; }
     .about-name em { font-style: italic; color: #b8965a; }
@@ -305,7 +321,7 @@
 <header id="mobile-header">
   <span class="mobile-logo">Portafolio Fotográfico</span>
   <div class="flex items-center gap-4">
-    <span class="mobile-nav-hint"> Fotos -></span>
+    <span class="mobile-nav-hint"> Fotografías -></span>
     <button id="hamburger" aria-label="Menú">
       <span></span><span></span><span></span>
     </button>
@@ -366,40 +382,29 @@
     ════════════════════════════ -->
     <section id="page-about" class="page">
       <div class="about-image-panel">
-  <picture>
-    <source media="(max-width: 900px)" srcset="https://pub-947e2cd2e95b40b9b5ba380568eb5ed7.r2.dev/perfil-movil.webp">
-    
-    <img 
-      src="https://pub-947e2cd2e95b40b9b5ba380568eb5ed7.r2.dev/perfil-pc.webp" 
-      alt="Arnoldo Sánchez - Fotógrafo"
-      class="about-profile-img"
-    >
-  </picture>
-  <div class="about-image-overlay"></div>
-</div>
+        <picture>
+          <source media="(max-width: 900px)" srcset="https://pub-947e2cd2e95b40b9b5ba380568eb5ed7.r2.dev/perfil-movil.webp">
+          <img src="https://pub-947e2cd2e95b40b9b5ba380568eb5ed7.r2.dev/perfil-pc.webp" alt="Arnoldo Sánchez - Fotógrafo" class="about-profile-img">
+        </picture>
+        <div class="about-image-overlay"></div>
+      </div>
+
       <div class="about-text-panel">
         <div class="about-eyebrow">Fotografía Profesional | Arnoldo Sánchez | @_dazphotography</div>
         <h1 class="about-name">Capturando <em>instantes</em><br>que perduran</h1>
         <div class="about-divider"></div>
         <p class="about-bio">
-          Soy un fotógrafo apasionado por congelar instantes 
+          Soy un fotógrafo <strong>apasionado</strong> por congelar instantes 
           que transcienden en el tiempo. Mi trabajo abarca desde la emotividad de una fiestas
-          de 15 años y la gran ternura de un retrato de mascotas, hasta la presición requerida
-          en conferencias y retratos profesionales. <br><br>
+          de 15 años y la gran ternura de un retrato de mascotas, hasta la <strong>presición</strong> requerida
+          en conferencias y retratos profesionales. <br><br>     
 
-          Poseo un ojo entrenado para descubrir los detalles invisibles, aquellos que a simple vista 
-          no parecieran estar ahí, permitiéndome capturar no solo una imagen, sino 
-          una historia que perdura.  <br><br>
-
-          La versatilidad es mi mayor fortaleza, ya que me adapto con facilidad a cada ambiente para garantizar
-          la toma perfecta que buscas. Para mí, cada fotografía es una cápsula que encapsula mi mayor pasión 
-          por lo bello que es el arte de capturar momentos inolvidables y de alto valor. 
+          La <strong>versatilidad</strong> es mi mayor fortaleza, ya que me adapto con facilidad a cada ambiente para garantizar
+          la toma <strong>perfecta</strong> que buscas. Para mí, cada fotografía es algo que encapsula mi mayor <strong>pasión</strong> 
+          por lo bello que es el arte de capturar momentos inolvidables y de alto <strong>valor</strong>. 
         </p>
-       
-        
-      </div>
-      <div style="position:absolute; bottom:0; left:42%; right:10%;">
-        <div class="footer-bar">
+
+        <div class="footer-bar" style="margin-top: auto; padding: 28px 0; border-top: 1px solid #1c1c1c; width: 100%; display: flex; justify-content: space-between; align-items: center;">
           <span class="footer-copy">© 2026 Arnoldo Sánchez, todos los derechos reservados.</span>
           <div class="footer-links">
             <a href="https://www.instagram.com/_dazphotography?igsh=MXFoNnptNXpkam81dQ==" target="_blank" class="footer-link">
@@ -408,12 +413,10 @@
             <a href="https://wa.me/50373915157" target="_blank" class="footer-link">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>WhatsApp
             </a>
-            
           </div>
         </div>
       </div>
     </section>
-
     <!-- ════════════════════════════
          PÁGINA: GALERÍA
          (contenido generado por JS)
